@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-hb(t{1,5})n
+hb(t{2,5})n
