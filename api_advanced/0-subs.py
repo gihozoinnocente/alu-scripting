@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"""
-This module uses the 'requests' library to retrieve the number of subscribers for a given subreddit using the Reddit API.
+"""This module uses the 'requests' library to retrieve the
+ number of subscribers for a given subreddit using the Reddit API.
 
-The 'number_of_subscribers' function takes a subreddit name as input and queries the Reddit API to fetch the subscriber count.
+The 'number_of_subscribers' function takes a subreddit name as 
+input and queries the Reddit API to fetch the subscriber count.
 If the subreddit is valid, it returns the number of subscribers; otherwise, it returns 0.
 
 The 'requests' library is used for making HTTP GET requests to the Reddit API.
