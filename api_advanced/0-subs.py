@@ -10,28 +10,15 @@ The 'requests' library is used for making HTTP GET requests to the Reddit API.
 
 import requests
 
+
 def number_of_subscribers(subreddit):
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
-
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
-    }
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'}
 
-    try:
-        response = requests.get(url, headers=headers)
-        data = response.json()
-        if 'data' in data and 'subscribers' in data['data']:
-            return data['data']['subscribers']
-        else:
-            return 0  
-    except:
-        return 0  
+    response = requests.get(url, headers=headers)
 
-if __name__ == '__main__':
-    import sys
-
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
+    if response.status_code == 200:
+        return response.json().get('data').get('subscribers')
     else:
-        subscribers = number_of_subscribers(sys.argv[1])
-        print(subscribers)
+        return 0
