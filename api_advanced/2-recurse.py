@@ -1,27 +1,39 @@
 #!/usr/bin/python3
-"""get hot post function"""
-
-
-import json
+"""return the titles of all hot articles"""
 import requests
-import sys
 
 
-def recurse(subreddit,  hot_list=[], after=None):
-    """get top all hot post"""
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "Mozilla/5.0"}
-    result = requests.get(url,
-                          headers=headers,
-                          params={"after": after},
-                          allow_redirects=False)
-    listing = []
-    if result.status_code != 200:
-        return None
-    body = json.loads(result.text)
-    if body["data"]["after"] is not None:
-        children = body["data"]["children"]
-        newlist = hot_list + [i["data"]["title"] for i in children]
-        return recurse(subreddit, newlist, body["data"]["after"])
-    else:
+def recurse(subreddit, hot_list=[], after=''):
+    """Returns a list containing the title"""
+    # Set the Default URL strings
+    base_url = 'https://www.reddit.com'
+    api_uri = '{base}/r/{subreddit}/hot.json'.format(base=base_url,
+                                                     subreddit=subreddit)
+
+    # Set an User-Agent
+    user_agent = {'User-Agent': 'Python/requests'}
+
+    # Set the Query Strings to Request
+    payload = {'after': after, 'limit': '100'}
+
+    # Get the Response of the Reddit API
+    res = requests.get(api_uri, headers=user_agent,
+                       params=payload, allow_redirects=False)
+
+    # Checks if the subreddit is invalid
+    if res.status_code == 200:
+        res = res.json()
+        hot_posts = res.get('data').get('children')
+        after = res.get('data').get('after')
+
+        # Print each hot post title
+        for post in hot_posts:
+            hot_list.append(post.get('data').get('title'))
+
+        # Get the next page of hot posts
+        if after is not None:
+            recurse(subreddit, hot_list, after)
+
         return hot_list
+
+    return None
