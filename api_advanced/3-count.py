@@ -90,4 +90,7 @@ def count(subreddit, word_list):
     return "Succesful :)"
 
 
-
+"""
+result = count("programming", ["python", "javascript", "ruby", "software"])
+print(result)
+"""
