@@ -14,7 +14,7 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
     """
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-        "User-Agent": "python:my_app:1.0 (by /u/gihozoi)"
+        "User-Agent": "my_app:1.0 (by /u/gihozoi)"
     }
     params = {
         "after": after,
